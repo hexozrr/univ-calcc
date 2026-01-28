@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>حاسبة المعدلات الجامعية – علوم اقتصادية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background: #f4f6fb; padding: 15px; }
+    h1, h2 { text-align: center; color: #0d6efd; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; background: #fff; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background: #0d6efd; color: #fff; }
+    input { width: 70px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; }
+    button { margin: 20px auto; display: block; padding: 12px 20px; font-size: 16px; cursor: pointer; background: #0d6efd; color: #fff; border: none; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+    button:hover { background: #0b5ed7; }
+    .result { font-size: 18px; font-weight: bold; margin-top: 15px; text-align: center; color: #0d6efd; }
+    .box { background: #fff; padding: 15px; margin-top: 20px; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+    .note { font-size: 14px; color: #0d6efd; text-align: center; margin-top: 10px; }
+    footer { position: fixed; bottom: 0; left: 0; width: 100%; background: #0d6efd; color: #fff; text-align: center; padding: 10px 5px; font-size: 14px; box-shadow: 0 -3px 10px rgba(0,0,0,0.2); }
+  </style>
+</head>
+<body>
+
+<h1>حاسبة المعدلات الجامعية – علوم اقتصادية</h1>
+
+<div class="box">
+<h2>السداسي الأول</h2>
+<table>
+<tr>
+  <th>المادة</th>
+  <th>المعامل</th>
+  <th>أعمال موجهة</th>
+  <th>امتحان</th>
+</tr>
+
+<tr>
+  <td>مدخل إلى علم الاقتصاد</td><td>3</td>
+  <td><input id="eco_td" type="number"></td>
+  <td><input id="eco_ex" type="number"></td>
+</tr>
+<tr>
+  <td>رياضيات 1</td><td>2</td>
+  <td><input id="math_td" type="number"></td>
+  <td><input id="math_ex" type="number"></td>
+</tr>
+<tr>
+  <td>إحصاء 1</td><td>2</td>
+  <td><input id="stat_td" type="number"></td>
+  <td><input id="stat_ex" type="number"></td>
+</tr>
+<tr>
+  <td>محاسبة عامة 1</td><td>3</td>
+  <td><input id="acc_td" type="number"></td>
+  <td><input id="acc_ex" type="number"></td>
+</tr>
+<tr>
+  <td>اقتصاد جزئي 1</td><td>3</td>
+  <td><input id="micro_td" type="number"></td>
+  <td><input id="micro_ex" type="number"></td>
+</tr>
+<tr>
+  <td>مدخل للقانون</td><td>1</td>
+  <td>—</td>
+  <td><input id="law_ex" type="number"></td>
+</tr>
+<tr>
+  <td>اللغة الإنجليزية الأكاديمية</td><td>1</td>
+  <td>—</td>
+  <td><input id="eng_ex" type="number"></td>
+</tr>
+<tr>
+  <td>أساسيات برمجة بالبايثون 1</td><td>1</td>
+  <td>—</td>
+  <td><input id="py_ex" type="number"></td>
+</tr>
+<tr>
+  <td>مدخل لعلم اجتماع المنظمات</td><td>1</td>
+  <td>—</td>
+  <td><input id="soc_ex" type="number"></td>
+</tr>
+</table>
+
+<div class="note">
+المواد التي تحتوي على أعمال موجهة تُحسب كالتالي: 40% أعمال موجهة + 60% امتحان
+</div>
+
+<div class="result" id="result"></div>
+</div>
+
+<button onclick="calculate()">احسب المعدل</button>
+
+<footer>
+Grp 157 / sec 17 | 2025/2026 | By Houcine
+</footer>
+
+<script>
+function finalWithTD(td, ex) {
+  return (td * 0.4) + (ex * 0.6);
+}
+
+function calculate() {
+  let sum = 0;
+  let coeffSum = 0;
+
+  // مواد بأعمال موجهة
+  const withTD = [
+    { td: 'eco_td', ex: 'eco_ex', c: 3 },
+    { td: 'math_td', ex: 'math_ex', c: 2 },
+    { td: 'stat_td', ex: 'stat_ex', c: 2 },
+    { td: 'acc_td', ex: 'acc_ex', c: 3 },
+    { td: 'micro_td', ex: 'micro_ex', c: 3 }
+  ];
+
+  withTD.forEach(m => {
+    const td = Number(document.getElementById(m.td).value);
+    const ex = Number(document.getElementById(m.ex).value);
+    if (!isNaN(td) && !isNaN(ex)) {
+      sum += finalWithTD(td, ex) * m.c;
+      coeffSum += m.c;
+    }
+  });
+
+  // مواد بدون أعمال موجهة
+  const noTD = [
+    { ex: 'law_ex', c: 1 },
+    { ex: 'eng_ex', c: 1 },
+    { ex: 'py_ex', c: 1 },
+    { ex: 'soc_ex', c: 1 }
+  ];
+
+  noTD.forEach(m => {
+    const ex = Number(document.getElementById(m.ex).value);
+    if (!isNaN(ex)) {
+      sum += ex * m.c;
+      coeffSum += m.c;
+    }
+  });
+
+  const avg = coeffSum ? (sum / coeffSum).toFixed(2) : 0;
+  document.getElementById('result').innerText = 'المعدل العام = ' + avg;
+}
+</script>
+
+</body>
+</html>
